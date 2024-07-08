@@ -4,7 +4,7 @@ import SockJS from 'sockjs-client'
 const brokerURL: string =
 	process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/ws'
 const accessToken: string =
-	'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJraWVudXNlciIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzIwNDA0MjI3LCJleHAiOjE3MjA0OTA2Mjd9.PgLNMKHoY6XzqjFE5vAkBoYx5JkQVi4m3hbZ0Y3fteBnL5yx5CFywqVB1l58Drsm'
+	'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJraWVudXNlciIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzIwNDI0NjEwLCJleHAiOjE3MjA1MTEwMTB9.IYuPaJ4dWwEIKlPsVkW11Db9xBUqvzs--AYY51cu1XgnQ6ZXwsy7FUwHXCUqkMz4'
 
 interface StompConfig {
 	onConnectCallback: (client: Client) => void

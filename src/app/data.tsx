@@ -24,10 +24,14 @@ export const userData = [
 
 export type UserData = (typeof userData)[number]
 
-export const loggedInUserData = {
-	id: 5,
-	avatar: '/LoggedInUser.jpg',
-	name: 'Jakob Hoeg',
+export const loggedInUserData: UserResponse = {
+	id: 'ab12d22d-9a33-4d3e-87d7-f1962da5d6c9',
+	username: 'kienuser',
+	phoneNumber: 'string',
+	addressLine: 'string',
+	email: 'string',
+	verify: true,
+	avatar: undefined,
 }
 
 export type LoggedInUserData = typeof loggedInUserData
@@ -56,18 +60,16 @@ export interface MessageRequest {
 	content: string
 	attachment: string | undefined
 }
-
-// export interface User {
-// 	id: number
-// 	avatar: string
-// 	messages: Message[]
-// 	name: string
-// }
 export interface UserResponse {
+	id: string
 	username: string
 	phoneNumber: string
 	addressLine: string
 	email: string
 	verify: boolean
+	avatar: string | undefined
 }
-export interface RoomResponse {}
+export interface RoomResponse {
+	id: string
+	createdDate: Date
+}
