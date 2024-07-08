@@ -13,6 +13,11 @@ import React, { useEffect, useState } from 'react'
 import { Client, IFrame, IMessage } from '@stomp/stompjs'
 import connectStompClient from '../../utils/stompClient'
 import fetchMessage from '@/action/zustand/api/messageApi'
+import axiosInstance from '@/config/axiosConfig'
+import { NextApiResponse } from 'next'
+import axios from 'axios'
+import { MessageApis } from '@/action/zustand/api/MessageApis'
+import { Page } from '@/models/Page'
 
 interface ChatProps {
 	messages?: MessageResponse[]
@@ -73,17 +78,13 @@ export function Chat({ messages, selectedUser, isMobile }: ChatProps) {
 		}
 	}
 	useEffect(() => {
-		featchMessageApi()
+		fetchData()
 	}, [])
-	const featchMessageApi = () => {
-		fetchMessage(roomId)
-			.then((rp) => {
-        console.log('Fetched message:', rp.content)
-        setMessages(rp.content as unknown as Array<MessageResponse>);
-			})
-			.catch((error) => {
-				console.error('Error:', error)
-			})
+	const fetchData = async () => {
+		var x: Page<MessageResponse> = await MessageApis.getMessageByRoomId(
+			'ab12d22d-9a33-4d3e-87d7-f1962da5d6c9'
+		)
+		setMessages(x.content)
 	}
 	return (
 		<div className="flex flex-col justify-between w-full h-full">
