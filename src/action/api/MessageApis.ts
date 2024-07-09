@@ -1,7 +1,6 @@
-import { MessageResponse } from "@/app/data";
 import axiosInstance from '@/config/axiosConfig';
 import { Page } from "@/models/Page";
-import { AxiosResponse } from "axios";
+import { MessageResponse } from '@/models/response/MessageResponse';
 
 export const MessageApis = {
   getMessageByRoomId: (roomId: string): Promise<Page<MessageResponse>> =>

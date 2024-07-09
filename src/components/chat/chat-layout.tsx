@@ -1,6 +1,4 @@
 'use client'
-
-import { userData } from '@/app/data'
 import React, { useEffect, useState } from 'react'
 import {
 	ResizableHandle,
@@ -11,7 +9,7 @@ import { cn } from '@/lib/utils'
 import { Sidebar } from '../sidebar'
 import { Chat } from './chat'
 import { Page } from '@/models/Page'
-import { RoomChatApis } from '@/action/zustand/api/RoomChatApis'
+import { RoomChatApis } from '@/action/api/RoomChatApis'
 import { RoomResponse } from '@/models/response/RoomResponse'
 
 interface ChatLayoutProps {
@@ -26,10 +24,11 @@ export function ChatLayout({
 	navCollapsedSize,
 }: ChatLayoutProps) {
 	const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed)
-	const [selectedUser, setSelectedUser] = React.useState(userData[0])
 	const [isMobile, setIsMobile] = useState(false)
 	const [roomChats, setRoomChats] = useState<RoomResponse[]>([])
-	const [selectedRoomChat, setSelectedRoomChat] = useState<RoomResponse | undefined>(undefined);
+	const [selectedRoomChat, setSelectedRoomChat] = useState<
+		RoomResponse | undefined
+	>(undefined)
 
 	useEffect(() => {
 		fetchRoomChat()
@@ -105,9 +104,7 @@ export function ChatLayout({
 			>
 				<Chat
 					selectedRoomChat={selectedRoomChat}
-					selectedUser={selectedUser}
 					isMobile={isMobile}
-				 
 				/>
 			</ResizablePanel>
 		</ResizablePanelGroup>

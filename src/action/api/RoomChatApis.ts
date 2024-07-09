@@ -1,8 +1,7 @@
-import { PageableProp } from './../../../models/request/PageableRequest';
-import { MessageResponse, RoomResponse } from "@/app/data";
+import { PageableProp } from '../../models/request/PageableRequest';
 import axiosInstance from '@/config/axiosConfig';
 import { Page } from "@/models/Page";
-import { AxiosResponse } from "axios";
+import { RoomResponse } from '@/models/response/RoomResponse';
 
 export const RoomChatApis = {
   getRoomChats: (pageable?: PageableProp): Promise<Page<RoomResponse>> => {
