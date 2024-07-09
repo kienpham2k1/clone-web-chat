@@ -1,3 +1,5 @@
+import { UserResponse } from "@/models/response/UserResponse"
+
 export const userData = [
 	{
 		id: 1,
@@ -36,40 +38,7 @@ export const loggedInUserData: UserResponse = {
 
 export type LoggedInUserData = typeof loggedInUserData
 
-export interface Message {
-	id: string
-	content: string
-	attachment: string
-	createdDate: string
-	userId: string
-	// user: User
-	roomId: string
-	// room: Room
-}
-export interface MessageResponse {
-	id: string
-	content: string
-	attachment: string
-	createdDate: Date
-	userId: string
-	user: UserResponse
-	roomId: string
-	room: RoomResponse
-}
-export interface MessageRequest {
-	content: string
-	attachment: string | undefined
-}
-export interface UserResponse {
-	id: string
-	username: string
-	phoneNumber: string
-	addressLine: string
-	email: string
-	verify: boolean
-	avatar: string | undefined
-}
-export interface RoomResponse {
-	id: string
-	createdDate: Date
-}
+
+
+
+

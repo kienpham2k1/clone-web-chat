@@ -1,95 +1,105 @@
-import { loggedInUserData, Message, MessageRequest, MessageResponse, UserData } from "@/app/data";
-import { cn } from "@/lib/utils";
-import React, { useRef } from "react";
-import { Avatar, AvatarImage } from "../ui/avatar";
-import ChatBottombar from "./chat-bottombar";
-import { AnimatePresence, motion } from "framer-motion";
+import { loggedInUserData, UserData } from '@/app/data'
+import { cn } from '@/lib/utils'
+import React, { useRef } from 'react'
+import { Avatar, AvatarImage } from '../ui/avatar'
+import ChatBottombar from './chat-bottombar'
+import { AnimatePresence, motion } from 'framer-motion'
+import { MessageResponse } from '@/models/response/MessageResponse'
+import { MessageRequest } from '@/models/request/MessageRequest'
 
 interface ChatListProps {
-  messages?: MessageResponse[];
-  selectedUser: UserData;
-  sendMessage: (newMessage: MessageRequest) => void;
-  isMobile: boolean;
+	messages?: MessageResponse[]
+	selectedUser: UserData
+	sendMessage: (newMessage: MessageRequest) => void
+	isMobile: boolean
 }
 
 export function ChatList({
-  messages,
-  selectedUser,
-  sendMessage,
-  isMobile
+	messages,
+	selectedUser,
+	sendMessage,
+	isMobile,
 }: ChatListProps) {
-  const messagesContainerRef = useRef<HTMLDivElement>(null);
+	const messagesContainerRef = useRef<HTMLDivElement>(null)
 
-  React.useEffect(() => {
-    if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop =
-        messagesContainerRef.current.scrollHeight;
-    }
-  }, [messages]);
+	React.useEffect(() => {
+		if (messagesContainerRef.current) {
+			messagesContainerRef.current.scrollTop =
+				messagesContainerRef.current.scrollHeight
+		}
+	}, [messages])
 
-  return (
-    <div className="w-full overflow-y-auto overflow-x-hidden h-full flex flex-col">
-      <div
-        ref={messagesContainerRef}
-        className="w-full overflow-y-auto overflow-x-hidden h-full flex flex-col"
-      >
-        <AnimatePresence>
-          {messages?.map((message, index) => (
-            <motion.div
-              key={index}
-              layout
-              initial={{ opacity: 0, scale: 1, y: 50, x: 0 }}
-              animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
-              exit={{ opacity: 0, scale: 1, y: 1, x: 0 }}
-              transition={{
-                opacity: { duration: 0.1 },
-                layout: {
-                  type: "spring",
-                  bounce: 0.3,
-                  duration: messages.indexOf(message) * 0.05 + 0.2,
-                },
-              }}
-              style={{
-                originX: 0.5,
-                originY: 0.5,
-              }}
-              className={cn(
-                "flex flex-col gap-2 p-4 whitespace-pre-wrap",
-                message.user.id === loggedInUserData.id ? "items-end" : "items-start"
-              )}
-            >
-              <div className="flex gap-3 items-center">
-                {message.user.id !== loggedInUserData.id && (
-                  <Avatar className="flex justify-center items-center">
-                    <AvatarImage
-                      // src={message.avatar}
-                      src="/User3.png"
-                      alt={message.user.username}
-                      width={6}
-                      height={6}
-                    />
-                  </Avatar>
-                )}
-                <span className=" bg-accent p-3 rounded-md max-w-xs">
-                  {message.content}
-                </span>
-                {message.user.id === loggedInUserData.id && (
-                  <Avatar className="flex justify-center items-center">
-                    <AvatarImage
-                      // src={message.avatar}
-                      src="/LoggedInUser.jpg"
-                      alt={message.user.username}
-                      width={6}
-                      height={6}
-                    />
-                  </Avatar>
-                )}
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
-      <ChatBottombar sendMessage={sendMessage} isMobile={isMobile}/>
-    </div>
-  );
+	return (
+		<div className="w-full overflow-y-auto overflow-x-hidden h-full flex flex-col">
+			<div
+				ref={messagesContainerRef}
+				className="w-full overflow-y-auto overflow-x-hidden h-full flex flex-col"
+			>
+				<AnimatePresence>
+					{messages?.map((message, index) => (
+						<motion.div
+							key={index}
+							layout
+							initial={{ opacity: 0, scale: 1, y: 50, x: 0 }}
+							animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
+							exit={{ opacity: 0, scale: 1, y: 1, x: 0 }}
+							transition={{
+								opacity: { duration: 0.1 },
+								layout: {
+									type: 'spring',
+									bounce: 0.3,
+									duration:
+										messages.indexOf(message) * 0.05 + 0.2,
+								},
+							}}
+							style={{
+								originX: 0.5,
+								originY: 0.5,
+							}}
+							className={cn(
+								'flex flex-col gap-2 p-4 whitespace-pre-wrap',
+								message.user.id === loggedInUserData.id
+									? 'items-end'
+									: 'items-start'
+							)}
+						>
+							<div className="flex gap-3 items-center">
+								{message.user.id !== loggedInUserData.id &&
+								message.user.avatar ? (
+									<Avatar className="flex justify-center items-center">
+										<AvatarImage
+											src={message.user.avatar}
+											alt={message.user.username}
+											width={6}
+											height={6}
+										/>
+									</Avatar>
+								) : (
+									<></>
+								)}
+								<span className=" bg-accent p-3 rounded-md max-w-xs">
+									{message.content}
+								</span>
+								{message.user.id === loggedInUserData.id &&
+									message.user.avatar && (
+										<Avatar className="flex justify-center items-center">
+											<AvatarImage
+												src={message.user.avatar}
+												alt={message.user.username}
+												width={6}
+												height={6}
+											/>
+										</Avatar>
+									)}
+							</div>
+						</motion.div>
+					))}
+				</AnimatePresence>
+			</div>
+			<ChatBottombar
+				sendMessage={sendMessage}
+				isMobile={isMobile}
+			/>
+		</div>
+	)
 }
