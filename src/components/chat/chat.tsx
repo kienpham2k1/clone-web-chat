@@ -1,4 +1,3 @@
-import { UserData } from '@/app/data'
 import ChatTopbar from './chat-topbar'
 import { ChatList } from './chat-list'
 import React, { useEffect, useState } from 'react'
@@ -8,23 +7,14 @@ import { MessageApis } from '@/action/zustand/api/MessageApis'
 import { Page } from '@/models/Page'
 import { MessageResponse } from '@/models/response/MessageResponse'
 import { MessageRequest } from '@/models/request/MessageRequest'
-import { UserResponse } from '@/models/response/UserResponse'
 import { RoomResponse } from '@/models/response/RoomResponse'
 
 interface ChatProps {
-	selectedUser: UserData
 	isMobile: boolean
 	selectedRoomChat?: RoomResponse
 }
-const roomId: string =
-	process.env.ROOM_CHAT_ID || 'ab12d22d-9a33-4d3e-87d7-f1962da5d6c9'
 
-export function Chat({
-	selectedUser,
-	isMobile,
-	selectedRoomChat,
-}: // setSelectedRoomChat,
-ChatProps) {
+export function Chat({ isMobile, selectedRoomChat }: ChatProps) {
 	const [messagesState, setMessages] = React.useState<MessageResponse[]>([])
 	const [client, setClient] = useState<Client | null>(null)
 	useEffect(() => {
@@ -32,20 +22,23 @@ ChatProps) {
 	}, [selectedRoomChat])
 	useEffect(() => {
 		const onConnect = (client: Client) => {
-			client.subscribe(`/topic/${selectedRoomChat?.id}`, (message: IMessage) => {
-				console.log('Received message:', message.body)
-				try {
-					const parsedMessage = JSON.parse(
-						message.body
-					) as MessageResponse
-					setMessages((prevMessages) => [
-						...prevMessages,
-						parsedMessage,
-					])
-				} catch (error) {
-					console.error('Error parsing message:', error)
+			client.subscribe(
+				`/topic/${selectedRoomChat?.id}`,
+				(message: IMessage) => {
+					console.log('Received message:', message.body)
+					try {
+						const parsedMessage = JSON.parse(
+							message.body
+						) as MessageResponse
+						setMessages((prevMessages) => [
+							...prevMessages,
+							parsedMessage,
+						])
+					} catch (error) {
+						console.error('Error parsing message:', error)
+					}
 				}
-			})
+			)
 			setClient(client)
 		}
 
@@ -86,14 +79,10 @@ ChatProps) {
 	}
 	return (
 		<div className="flex flex-col justify-between w-full h-full">
-			<ChatTopbar
-				roomChat={selectedRoomChat}
-				selectedUser={selectedUser}
-			/>
+			<ChatTopbar roomChat={selectedRoomChat} />
 
 			<ChatList
 				messages={messagesState}
-				selectedUser={selectedUser}
 				sendMessage={sendMessage}
 				isMobile={isMobile}
 			/>

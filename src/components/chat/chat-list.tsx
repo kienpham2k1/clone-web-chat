@@ -1,4 +1,4 @@
-import { loggedInUserData, UserData } from '@/app/data'
+import { loggedInUserData } from '@/app/data'
 import { cn } from '@/lib/utils'
 import React, { useRef } from 'react'
 import { Avatar, AvatarImage } from '../ui/avatar'
@@ -9,14 +9,12 @@ import { MessageRequest } from '@/models/request/MessageRequest'
 
 interface ChatListProps {
 	messages?: MessageResponse[]
-	selectedUser: UserData
 	sendMessage: (newMessage: MessageRequest) => void
 	isMobile: boolean
 }
 
 export function ChatList({
 	messages,
-	selectedUser,
 	sendMessage,
 	isMobile,
 }: ChatListProps) {
