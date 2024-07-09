@@ -13,19 +13,24 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation'
+import { storeUser } from '@/utils/userUtils'
 
 const LoginForm: React.FC = () => {
 	const [username, setUsername] = useState<string>('')
 	const [password, setPassword] = useState<string>('')
 	const [error, setError] = useState<string | null>(null)
-	const router = useRouter();
+	const router = useRouter()
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
-		setError(null)
-		const response = await AuthApis.signIn({ username, password })
-		storeToken(response.token.accessToken)
-		router.push('/chat')		 
+		try {
+			const response = await AuthApis.signIn({ username, password })
+			router.push('/chat')
+			storeToken(response.token.accessToken)
+			storeUser(response.user)
+		} catch (error) {
+			setError('Login fail!')
+		}
 	}
 	return (
 		<Card className="mx-auto max-w-sm">
@@ -35,6 +40,7 @@ const LoginForm: React.FC = () => {
 					<CardDescription>
 						Please enter your username and password.
 					</CardDescription>
+					<p className="text-red-500">{error}</p>
 				</CardHeader>
 				<CardContent className="space-y-4">
 					<div className="space-y-2">
@@ -53,6 +59,7 @@ const LoginForm: React.FC = () => {
 						<Input
 							id="password"
 							type="password"
+							placeholder="Password"
 							required
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}

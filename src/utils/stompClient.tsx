@@ -2,9 +2,8 @@ import { Client, IMessage, IFrame } from '@stomp/stompjs'
 import SockJS from 'sockjs-client'
 
 const brokerURL: string =
-	process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/ws'
-const accessToken: string =
-	'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJraWVudXNlciIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzIwNDI0NjEwLCJleHAiOjE3MjA1MTEwMTB9.IYuPaJ4dWwEIKlPsVkW11Db9xBUqvzs--AYY51cu1XgnQ6ZXwsy7FUwHXCUqkMz4'
+	process.env.NEXT_PUBLIC_WEB_SOCKET_URL || 'http://localhost:8080/ws'
+import { storeToken, retrieveToken, deleteToken } from '../utils/tokenUtils'
 
 interface StompConfig {
 	onConnectCallback: (client: Client) => void
@@ -19,7 +18,7 @@ const connectStompClient = ({
 	const stompClient = new Client({
 		webSocketFactory: () => socket as WebSocket,
 		connectHeaders: {
-			['Authorization']: `Bearer ${accessToken}`,
+			['Authorization']: `Bearer ${retrieveToken()}`,
 		},
 		debug: (str) => {
 			console.log(str)

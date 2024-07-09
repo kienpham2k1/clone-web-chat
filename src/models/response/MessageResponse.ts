@@ -6,8 +6,8 @@ export interface MessageResponse {
 	content: string
 	attachment: string
 	createdDate: Date
-	userId: string
-	user: UserResponse
+	userId?: string
+	user?: UserResponse
 	roomId: string
 	room: RoomResponse
 }

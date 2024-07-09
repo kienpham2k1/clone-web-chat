@@ -15,7 +15,7 @@ export const RoomChatApis = {
       };
     }
 
-    return axiosInstance.get<Page<RoomResponse>>('/roomChat/gets', { params })
+    return axiosInstance.get<Page<RoomResponse>>('/roomChat/admin/gets', { params })
       .then(response => response.data)
       .catch((error: any) => {
         console.error('Error fetching room chats:', error);

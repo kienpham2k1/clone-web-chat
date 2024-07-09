@@ -8,6 +8,8 @@ import { Page } from '@/models/Page'
 import { MessageResponse } from '@/models/response/MessageResponse'
 import { MessageRequest } from '@/models/request/MessageRequest'
 import { RoomResponse } from '@/models/response/RoomResponse'
+import { UserResponse } from '@/models/response/UserResponse'
+import { retrieveUser } from '@/utils/userUtils'
 
 interface ChatProps {
 	isMobile: boolean
@@ -17,6 +19,10 @@ interface ChatProps {
 export function Chat({ isMobile, selectedRoomChat }: ChatProps) {
 	const [messagesState, setMessages] = React.useState<MessageResponse[]>([])
 	const [client, setClient] = useState<Client | null>(null)
+	const [loggedUser, setLoggedUser] = useState<UserResponse | null>(null)
+	useEffect(() => {
+		setLoggedUser(retrieveUser())
+	}, [])
 	useEffect(() => {
 		fetchMessages()
 	}, [selectedRoomChat])
@@ -85,6 +91,7 @@ export function Chat({ isMobile, selectedRoomChat }: ChatProps) {
 				messages={messagesState}
 				sendMessage={sendMessage}
 				isMobile={isMobile}
+				loggedUser={loggedUser}
 			/>
 		</div>
 	)
