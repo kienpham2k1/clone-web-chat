@@ -25,7 +25,7 @@ const LoginForm: React.FC = () => {
 		event.preventDefault()
 		try {
 			const response = await AuthApis.signIn({ username, password })
-			router.push('/chat')
+			router.push('/user/chat')
 			storeToken(response.token.accessToken)
 			storeUser(response.user)
 		} catch (error) {
